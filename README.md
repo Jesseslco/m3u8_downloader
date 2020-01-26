@@ -26,8 +26,8 @@ asynchronous download video via m3u8 url or m3u8 file
 > `git clone https://github.com/Jesseslco/m3u8_downloader.git`
 2. cd M3U8/
 3. `python3.8 manage.py`
-4. you may overwrite some function to fit your case
-> there are two functions you may change in lib/utils.py
+4. you may need to overwrite some functions to fit your case
+> there are two functions you could overwrite in lib/utils.py
    * parse_content(content)
    > some ts file needs to be decrypted, you should pass your decrption in this function
    * parse_ts_url(url)
