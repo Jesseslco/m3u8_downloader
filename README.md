@@ -38,3 +38,10 @@ asynchronous download video via m3u8 url or m3u8 file
      return urljoin("https://twitter.com", url)
    ```
 
+## Proxy Support
+use proxy is quite simple, just go to /config/setting.py
+change proxy value (default = None), you are good to go.
+
+## Feed Back
+if you got any problem while using it, feel free to raise a issue, I'm more than glad to help you. Thanks for using it.
+
