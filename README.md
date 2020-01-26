@@ -29,5 +29,12 @@ asynchronous download video via m3u8 url or m3u8 file
    * parse_content(content)
    > some ts file needs to be decrypted, you should pass your decrption in this function
    * parse_ts_url(url)
-   > some m3u8 playlist url may be not complete, < eg: /ext_tw_video/1221173105923674112/pu/vid/0/3000/320x568/nJjcKYgw_HuULFgC.ts
+   > some m3u8 playlist url may be not complete, like the below
+   `/ext_tw_video/1221173105923674112/pu/vid/0/3000/320x568/nJjcKYgw_HuULFgC.ts`
+   > in this case you should change this function
+   ```
+   def parse_ts_url(url):
+     from urllib.parse import urljoin
+     return urljoin("https://twitter.com", url)
+   ```
 
