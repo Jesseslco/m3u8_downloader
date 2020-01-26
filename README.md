@@ -43,5 +43,5 @@ use proxy is quite simple, just go to /config/setting.py
 change proxy value (default = None), you are good to go.
 
 ## Feed Back
-if you got any problem while using it, feel free to raise a issue, I'm more than glad to help you. Thanks for using it.
+if you got any problem while using it, feel free to raise a issue. Thanks for using it.
 
