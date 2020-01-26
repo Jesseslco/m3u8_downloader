@@ -1,0 +1,6 @@
+requests
+m3u8
+asyncio
+aiofile
+aiohttp
+ffmpeg-python
