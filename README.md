@@ -1,6 +1,7 @@
 # m3u8_downloader
 asynchronous download video via m3u8 url or m3u8 file
 
+[![HitCount](http://hits.dwyl.io/Jesseslco/m3u8_downloader.svg)](http://hits.dwyl.io/Jesseslco/m3u8_downloader)
  
 ## Requirments
 
