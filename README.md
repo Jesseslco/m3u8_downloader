@@ -8,7 +8,7 @@ asynchronous download video via m3u8 url or m3u8 file
 * python3.8 required
 
 * ffmpeg required
-> eg `sudo apt-get update && sudo apt-get install ffmpeg` 
+> eg: `sudo apt-get update && sudo apt-get install ffmpeg` 
 
 #### Modules
 * requests
