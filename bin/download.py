@@ -11,9 +11,11 @@ import m3u8
 
 class Downloader(object):
 
-    def __init__(self):
+    def __init__(self, url, file):
         self._logger = self._config_logger()
         self._config = self._config_request()
+        self._file_name = file
+        self._url = url
 
     def _config_logger(self):
         logging.basicConfig()
@@ -26,11 +28,6 @@ class Downloader(object):
             return {"headers" : headers,
                     "proxies" : proxy,}
         return {"headers" : headers}
-
-    def _get_input(self):
-        input_url_file = input("[m3u8 url or local m3u8 file]:: ")
-        input_output_name = input("[output file name]:: ")
-        return input_url_file, input_output_name
 
     @staticmethod
     def is_url(i):
@@ -67,10 +64,8 @@ class Downloader(object):
         return m3u8_obj.segments.uri
 
     def start(self):
-        input, output_file_name = self._get_input()
-        playlists = self._get_playlists(input)
+        playlists = self._get_playlists(self._url)
         playlists = [parse_ts_url(url) for url in playlists]
-        print(playlists)
-        engine = M3U8(playlists, output_file_name)
+        engine = M3U8(playlists, self._file_name)
         engine.start()
 
