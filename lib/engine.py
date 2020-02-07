@@ -4,22 +4,20 @@ from aiofile import AIOFile
 from collections import namedtuple
 from M3U8.config.setting import request_config, session_config, storage, tmp
 from M3U8.lib import exceptions
-from M3U8.lib.utils import parse_content
 import os
 import ffmpeg
 import logging
 
 class M3U8(object):
 
-    def __init__(self, playlists, output):
+    def __init__(self, playlists, output, parse_content):
         self._playlists = playlists
         self._config = {}
 
         self._output = os.path.join(storage, output)
         self._tmp = tmp
         self._logger = self._config_logger()
-
-
+        self._parse_content = parse_content
 
     def _config_logger(self):
         logging.basicConfig()
@@ -75,10 +73,16 @@ class M3U8(object):
             await responses
 
     async def _ts_download(self, url, file_name, session):
-        async with session.get(url = url, **request_config) as resp:
-            assert resp.status == 200
-            content = await resp.read()
-            content = parse_content(content)
+        status = -1
+        while status != 200:
+            try:
+                async with session.get(url = url, **request_config) as resp:
+                    #assert resp.status == 200
+                    status = resp.status
+                    content = await resp.read()
+                    content = self._parse_content(content)
+            except Exception as e:
+                self._logger.warning(e)
         await self._save_ts(file_name, content)
 
     async def _save_ts(self, file_name, content):
