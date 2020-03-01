@@ -1,8 +1,9 @@
 import sys
 import os
 import argparse
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from M3U8.bin.twitch import Twitch, Demo
+
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+from bin.twitter import Twitter
 
 def main():
 
@@ -13,7 +14,7 @@ def main():
     args = parser.parse_args()
 
     if args.mode == "twitter":
-        downloader = Twitch(args.url, args.file)
+        downloader = Twitter(args.url, args.file)
         downloader.start()
     else:
         downloader = Demo(args.url, args.file)

@@ -13,9 +13,9 @@ headers = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/
 
 
 # Don't modify if you don't know what you're doing
-storage = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "storage"))
+storage = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
-tmp = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "tmp"))
+tmp = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
 request_config = {"proxy": proxy["http"],
                   "timeout": 10,

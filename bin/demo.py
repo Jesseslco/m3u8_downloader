@@ -1,5 +1,5 @@
-from M3U8.bin.download import Downloader
-from M3U8.lib import exceptions
+from bin.download import Downloader
+from lib import exceptions
 import m3u8
 import requests
 

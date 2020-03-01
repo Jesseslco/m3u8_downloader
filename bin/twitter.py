@@ -1,9 +1,9 @@
-from M3U8.bin.download import Downloader
-from M3U8.lib import exceptions
+from bin.download import Downloader
+from lib import exceptions
 import m3u8
 import requests
 
-class Twitch(Downloader):
+class Twitter(Downloader):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 

@@ -1,9 +1,9 @@
-from M3U8.lib.engine import M3U8
+from lib.engine import M3U8
 import logging
 from urllib.parse import urlparse
 from pathlib import Path
-from M3U8.lib import exceptions
-from M3U8.lib.engine import M3U8
+from lib import exceptions
+from lib.engine import M3U8
 
 class Downloader(object):
 

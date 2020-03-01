@@ -1,12 +1,13 @@
 import asyncio
 import aiohttp
-from aiofile import AIOFile
-from collections import namedtuple
-from M3U8.config.setting import request_config, session_config, storage, tmp
-from M3U8.lib import exceptions
 import os
 import ffmpeg
 import logging
+from aiofile import AIOFile
+from collections import namedtuple
+from config.setting import request_config, session_config, storage, tmp
+from lib import exceptions
+from lib.progress.progress.bar import Bar
 
 class M3U8(object):
 
@@ -14,16 +15,25 @@ class M3U8(object):
         self._playlists = playlists
         self._config = {}
 
-        self._output = os.path.join(storage, output)
-        self._tmp = tmp
+        self._storage = os.path.join(storage, "storage")
+        self._output = os.path.join(self._storage, output)
+        self._tmp = os.path.join(tmp, "tmp")
         self._logger = self._config_logger()
         self._parse_content = parse_content
+        self._init_project()
 
     def _config_logger(self):
         logging.basicConfig()
         logger = logging.getLogger(name = __file__)
         logger.setLevel(logging.INFO)
         return logger
+
+    def _init_project(self):
+        if not os.path.isdir(self._tmp):
+            os.mkdir(self._tmp)
+        if not os.path.isdir(self._storage):
+            os.mkdir(self._storage)
+
 
     def start(self):
         self._logger.info("Main engine start.")
@@ -66,13 +76,14 @@ class M3U8(object):
         return Tasks
 
     async def _loop(self, tasks):
-        async with aiohttp.ClientSession(**session_config) as session:
-            tasks = [asyncio.create_task(self._ts_download(t.url, t.file_name, session)) for t in tasks]
-            #[await t for t in tasks]
-            responses = asyncio.gather(*tasks)
-            await responses
+        with Bar("Downloading", max = len(tasks)) as bar:
+            async with aiohttp.ClientSession(**session_config) as session:
+                tasks = [asyncio.create_task(self._ts_download(t.url, t.file_name, session, bar)) for t in tasks]
+                #[await t for t in tasks]
+                responses = asyncio.gather(*tasks)
+                await responses
 
-    async def _ts_download(self, url, file_name, session):
+    async def _ts_download(self, url, file_name, session, bar):
         status = -1
         while status != 200:
             try:
@@ -81,6 +92,7 @@ class M3U8(object):
                     status = resp.status
                     content = await resp.read()
                     content = self._parse_content(content)
+                    bar.next();
             except Exception as e:
                 self._logger.warning(e)
         await self._save_ts(file_name, content)
@@ -100,7 +112,7 @@ class M3U8(object):
             {
                 ffmpeg
                 .input(os.path.join(self._tmp, 'filelists.txt'), format = 'concat', safe = 0)
-                .output(self._output, c = 'copy')
+                .output(self._output, c = 'copy', threads = 8, loglevel = "panic")
                 .run()
             }
         except Exception as e:
@@ -108,8 +120,8 @@ class M3U8(object):
 
     def _clean(self):
 
-        tmp_files = os.listdir(tmp)
+        tmp_files = os.listdir(self._tmp)
         for i in tmp_files:
-            os.remove(os.path.join(tmp, i))
+            os.remove(os.path.join(self._tmp, i))
 
 
