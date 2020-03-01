@@ -7,7 +7,7 @@ from aiofile import AIOFile
 from collections import namedtuple
 from config.setting import request_config, session_config, storage, tmp
 from lib import exceptions
-from lib.progress.progress.bar import Bar
+from lib.progress.bar import Bar
 
 class M3U8(object):
 
