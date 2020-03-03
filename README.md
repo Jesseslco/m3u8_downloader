@@ -26,7 +26,7 @@ asynchronous download video via m3u8 url or m3u8 file
 3. `python3.8 manage.py`
 
 ## Noticed
-you may need to write your own class inherited from bin.download.Downloader
+You may need to overwrite bin.demo.Demo 
    1. if your m3u8 url couldn't download directly
 
    2. or your m3u8 playlists url is not complete
@@ -72,5 +72,36 @@ you may need to write your own class inherited from bin.download.Downloader
               return content
       ```
 
-      
+
+
+Demo:
+
+```python
+class Demo(Downloader):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def parse_file(self, file):
+        with open(file, "r") as f:
+            raw = f.read()
+        m3u8_obj = m3u8.loads(raw)
+        return m3u8_obj.segments.uri
+
+    def parse_url(self, url):
+        headers = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.80 Safari/537.36',
+                   'method': "GET"}
+
+        raw = requests.get(url, headers = headers).content.decode("utf-8")
+        m3u8_obj = m3u8.loads(raw)
+        playlists = m3u8_obj.segments.uri
+        return list(map(self.parse_ts_url, playlists))
+
+    def parse_ts_url(self, url):
+        return url
+
+    def parse_content(self, content):
+        return content
+```
+
+
 

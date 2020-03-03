@@ -4,6 +4,8 @@ import argparse
 
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 from bin.twitter import Twitter
+from bin.default import Default
+from bin.demo import Demo
 
 def main():
 
@@ -16,8 +18,11 @@ def main():
     if args.mode == "twitter":
         downloader = Twitter(args.url, args.file)
         downloader.start()
-    else:
+    elif args.mode == "own":
         downloader = Demo(args.url, args.file)
+        downloader.start()
+    else:
+        downloader = Default(args.url, args.file)
         downloader.start()
 
 if __name__ == "__main__":
