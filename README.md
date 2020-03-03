@@ -1,7 +1,7 @@
 # m3u8_downloader
+
 asynchronous download video via m3u8 url or m3u8 file
 
- 
 ## Requirments
 
 #### Package
@@ -24,4 +24,53 @@ asynchronous download video via m3u8 url or m3u8 file
 > `git clone https://github.com/Jesseslco/m3u8_downloader.git`
 2. cd M3U8/
 3. `python3.8 manage.py`
+
+## Noticed
+you may need to write your own class inherited from bin.download.Downloader
+   1. if your m3u8 url couldn't download directly
+
+   2. or your m3u8 playlists url is not complete
+
+      ```
+         #EXTM3U
+         #EXT-X-VERSION:6
+         #EXT-X-MEDIA-SEQUENCE:0
+         #EXT-X-TARGETDURATION:3
+         #EXT-X-PLAYLIST-TYPE:VOD
+         #EXT-X-ALLOW-CACHE:YES
+         #EXTINF:3.000,
+         /ext_tw_video/1234655732777308160/pu/vid/0/3000/480x270/fPisE__pmsx7k4sF.ts
+         #EXTINF:3.000,
+         /ext_tw_video/1234655732777308160/pu/vid/3000/6000/480x270/r_LS_GPI2BXX39I4.ts
+         #EXTINF:3.000,
+         /ext_tw_video/1234655732777308160/pu/vid/6000/9000/480x270/yYLlcdzb1XqRXUyc.ts
+         #EXTINF:3.000,
+         /ext_tw_video/1234655732777308160/pu/vid/9000/12000/480x270/iqaEsBByLBrdZ3IU.ts
+         #EXTINF:3.000,
+         /ext_tw_video/1234655732777308160/pu/vid/12000/15000/480x270/EGvmP4ThPwelrgHk.ts
+         #EXTINF:1.963,
+         /ext_tw_video/1234655732777308160/pu/vid/15000/16963/480x270/yh6vdCJRo6N-K_fT.ts
+         #EXT-X-ENDLIST
+      ```
+
+      pass your own parse_ts_url() function
+
+      ```python
+         def parse_ts_url(self, url):
+                 from urllib.parse import urljoin
+                         url = urljoin("https://video.twimg.com", url)
+                                 return url   	
+      ```
+
+   3.  your m3u8 ts segments may be decrypted,  pass your own parse_content() function
+
+      ```python
+          def parse_content(self, content):
+              ##
+              ## ...
+              ##
+              return content
+      ```
+
+      
 

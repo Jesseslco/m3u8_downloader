@@ -7,13 +7,13 @@ class Twitter(Downloader):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    def _parse_file(self, file):
+    def parse_file(self, file):
         with open(input, "r") as f:
             raw = f.read()
         m3u8_obj = m3u8.loads(raw)
         return m3u8_obj.segments.uri
 
-    def _parse_url(self, url):
+    def parse_url(self, url):
         proxies = {"http":"http://127.0.0.1:7890",
                    "https":"http://127.0.0.1:7890"}
 
@@ -30,6 +30,6 @@ class Twitter(Downloader):
         url = urljoin("https://video.twimg.com", url)
         return url
 
-    def _parse_content(self, content):
+    def parse_content(self, content):
         return content
 

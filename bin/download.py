@@ -36,21 +36,21 @@ class Downloader(object):
 
     def _get_playlists(self, input):
         if Downloader.is_file(input):
-            return self._parse_file(input)
+            return self.parse_file(input)
 
         elif Downloader.is_url(input):
-            return self._parse_url(input)
+            return self.parse_url(input)
 
         else:
             raise exceptions.InvalidInput()
 
-    def _parse_file(self, file):
+    def parse_file(self, file):
         raise exceptions.NotImplementedException
 
-    def _parse_url(self, url):
+    def parse_url(self, url):
         raise exceptions.NotImplementedException()
 
-    def _parse_content(self, content):
+    def parse_content(self, content):
         raise exceptions.NotImplementedException()
 
     def start(self):
@@ -58,6 +58,6 @@ class Downloader(object):
 
         self._logger.info(f"length of playlists : {len(playlists)}")
 
-        engine = M3U8(playlists, self._file, self._parse_content)
+        engine = M3U8(playlists, self._file, self.parse_content)
         engine.start()
 
