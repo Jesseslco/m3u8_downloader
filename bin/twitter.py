@@ -1,9 +1,9 @@
 from bin.download import Downloader
-from lib import exceptions
 import m3u8
 import requests
 
 class Twitter(Downloader):
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 

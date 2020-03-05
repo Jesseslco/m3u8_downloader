@@ -1,7 +1,6 @@
-from bin.download import Downloader
-from lib import exceptions
 import m3u8
 import requests
+from bin.download import Downloader
 
 class Default(Downloader):
     def __init__(self, *args, **kwargs):
@@ -14,10 +13,11 @@ class Default(Downloader):
         return m3u8_obj.segments.uri
 
     def parse_url(self, url):
-        headers = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.80 Safari/537.36',
-                   'method': "GET"}
+        headers = {
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.80 Safari/537.36',
+            'method': "GET"}
 
-        raw = requests.get(url, headers = headers).content.decode("utf-8")
+        raw = requests.get(url, headers=headers).content.decode("utf-8")
         m3u8_obj = m3u8.loads(raw)
         playlists = m3u8_obj.segments.uri
         return list(map(self.parse_ts_url, playlists))

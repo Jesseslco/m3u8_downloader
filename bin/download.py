@@ -1,9 +1,8 @@
-from lib.engine import M3U8
 import logging
-from urllib.parse import urlparse
 from pathlib import Path
 from lib import exceptions
 from lib.engine import M3U8
+from urllib.parse import urlparse
 
 class Downloader(object):
 
@@ -14,17 +13,17 @@ class Downloader(object):
 
     def _config_logger(self):
         logging.basicConfig()
-        logger = logging.getLogger(name = __file__)
+        logger = logging.getLogger(name=__file__)
         logger.setLevel(logging.INFO)
         return logger
 
     @staticmethod
     def is_url(i):
-       try:
-           result = urlparse(i)
-           return True
-       except:
-           return False
+        try:
+            result = urlparse(i)
+            return True
+        except:
+            return False
 
     @staticmethod
     def is_file(i):
@@ -60,4 +59,3 @@ class Downloader(object):
 
         engine = M3U8(playlists, self._file, self.parse_content)
         engine.start()
-

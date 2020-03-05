@@ -1,7 +1,6 @@
-from bin.download import Downloader
-from lib import exceptions
 import m3u8
 import requests
+from bin.download import Downloader
 
 class Demo(Downloader):
     def __init__(self, *args, **kwargs):

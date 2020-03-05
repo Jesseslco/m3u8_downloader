@@ -5,9 +5,9 @@ import ffmpeg
 import logging
 from aiofile import AIOFile
 from collections import namedtuple
-from config.setting import request_config, session_config, storage, tmp
 from lib import exceptions
 from lib.progress.bar import Bar
+from config.setting import request_config, session_config, storage, tmp
 
 class M3U8(object):
 
