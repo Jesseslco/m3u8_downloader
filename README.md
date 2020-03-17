@@ -64,13 +64,11 @@ You may need to overwrite bin.demo.Demo
 
    3.  your m3u8 ts segments may be decrypted,  pass your own parse_content() function
    
-      ```
          def parse_content(self, content):
               ##
               ## ...
               ##
             return content
-      ```
 
 
 Demo:
